@@ -1,0 +1,26 @@
+# Settings come from a .env file next to this one (copy .env.example);
+# everything has a default, so it also runs without one.
+services:
+  websitewordfinder:
+    build: .
+    image: websitewordfinder:latest
+    container_name: websitewordfinder
+    restart: unless-stopped
+    # a tiny init process reaps Chromium's helper processes when a page is closed
+    init: true
+    # Chromium uses shared memory for rendering; Docker's default of 64 MB is too small
+    shm_size: "1gb"
+    ports:
+      # server port : container port
+      - "${HOST_PORT:-4000}:${PORT:-4000}"
+    env_file:
+      # all crawl settings (ALLOW_PRIVATE_ADDRESSES, BROWSER_CONCURRENCY, ...) pass straight through
+      - path: .env
+        required: false
+    environment:
+      PORT: ${PORT:-4000}
+    # Chromium with 3 parallel pages fits comfortably in 2 GB; raise it together with BROWSER_CONCURRENCY.
+    deploy:
+      resources:
+        limits:
+          memory: 2g

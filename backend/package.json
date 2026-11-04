@@ -1,0 +1,23 @@
+{
+  "name": "website-word-finder-backend",
+  "version": "1.0.0",
+  "description": "Crawls a website and reports the URLs where a word or phrase appears.",
+  "private": true,
+  "type": "module",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "dev": "node --watch --env-file-if-exists=.env src/server.js",
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "express": "^5.1.0"
+  },
+  "optionalDependencies": {
+    "playwright": "^1.63.0"
+  }
+}
